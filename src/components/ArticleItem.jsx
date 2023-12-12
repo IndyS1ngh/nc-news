@@ -3,7 +3,11 @@ const ArticleItem = ({ article }) => {
     <div className="article-item-container">
       <li className="article-item">
         <h2>{article.title}</h2>
-        <img className="article-item-img" src={article.article_img_url} />
+        <img
+          className="article-item-img"
+          src={article.article_img_url}
+          alt={article.title + " img"}
+        />
         <div className="article-info">
           <p>Topic: {article.topic}</p>
           <p>Author: {article.author}</p>

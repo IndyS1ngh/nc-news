@@ -38,10 +38,12 @@ li {
 
 .article-item-container {
   grid-area: 4 / 2 / 6 / 12;
-  display: grid;
   margin: auto;
   height: auto;
-  width: auto;
+  max-width: 1280px;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .article-item {

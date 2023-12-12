@@ -17,7 +17,7 @@ const ArticleList = () => {
 
   return (
     <ul className="article-list">
-      <button className="filter-by-topic"></button>
+      <button className="filter-by-topic">Filter by Topic</button>
       {articles.map((article) => {
         return <ArticleItem article={article} key={article.article_id} />;
       })}
