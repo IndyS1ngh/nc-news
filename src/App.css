@@ -34,8 +34,22 @@ li {
   flex-wrap: wrap;
 }
 
+.article-display {
+  grid-area: 3 / 1 / 6 / 13;
+}
+
 .filter-by-topic {
   grid-area: 3 / 2 / 4 / 12;
+}
+
+.article-display-container {
+  grid-area: 4 / 2 / 6 / 12;
+  display: grid;
+  margin: auto;
+  height: auto;
+  max-width: 1280px;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .article-item-container {
@@ -65,6 +79,15 @@ li {
 /* .article-info {
   display: flex;
 } */
+
+.article-body {
+  font-size: 1.1rem;
+}
+
+.home-page-article-links {
+  text-decoration: none;
+  color: inherit;
+}
 
 main {
   width: 100vw;
