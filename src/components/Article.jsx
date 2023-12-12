@@ -9,9 +9,9 @@ const Article = ({ article }) => {
           alt={article.title + " img"}
         />
         <div className="article-info">
+          <p className="article-body">{article.body}</p>
           <p>Topic: {article.topic}</p>
           <p>Author: {article.author}</p>
-          <p>Body: {article.body}</p>
           <p>Created At: {article.created_at}</p>
           <p>Votes: {article.votes}</p>
           <p>Comment Count: {article.comment_count}</p>

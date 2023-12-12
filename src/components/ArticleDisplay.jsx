@@ -13,6 +13,7 @@ const ArticleDisplay = ({ article_id }) => {
       .then((apiArticle) => {
         setArticle(apiArticle);
         setIsLoading(false);
+        window.scrollTo(0, 0);
       })
       .catch(() => {
         setIsError(true);

@@ -80,6 +80,15 @@ li {
   display: flex;
 } */
 
+.article-body {
+  font-size: 1.1rem;
+}
+
+.home-page-article-links {
+  text-decoration: none;
+  color: inherit;
+}
+
 main {
   width: 100vw;
   height: 100vh;
