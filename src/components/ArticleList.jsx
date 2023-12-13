@@ -20,10 +20,10 @@ const ArticleList = () => {
   }, []);
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <h2>Loading Articles...</h2>;
   }
   if (isError) {
-    return <h2>Something went wrong...</h2>;
+    return <h2>Articles failed to load...</h2>;
   }
 
   return (

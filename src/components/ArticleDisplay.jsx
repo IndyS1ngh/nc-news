@@ -22,10 +22,10 @@ const ArticleDisplay = ({ article_id }) => {
   }, []);
 
   if (isLoading) {
-    return <h2>Loading...</h2>;
+    return <h2>Loading Article...</h2>;
   }
   if (isError) {
-    return <h2>Something went wrong...</h2>;
+    return <h2>Article failed to load...</h2>;
   }
 
   return (

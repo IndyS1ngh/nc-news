@@ -1,3 +1,5 @@
+import formatDate from "../utils/formatDate";
+
 const Article = ({ article }) => {
   return (
     <div className="article-display-container">
@@ -12,7 +14,7 @@ const Article = ({ article }) => {
           <p className="article-body">{article.body}</p>
           <p>Topic: {article.topic}</p>
           <p>Author: {article.author}</p>
-          <p>Created At: {article.created_at}</p>
+          <p>Created At: {formatDate(article.created_at)}</p>
           <p>Votes: {article.votes}</p>
           <p>Comment Count: {article.comment_count}</p>
         </div>
