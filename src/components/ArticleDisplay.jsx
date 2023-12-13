@@ -10,8 +10,7 @@ const ArticleDisplay = ({ article_id }) => {
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [isUpVoteError, setIsUpVoteError] = useState(false);
-  const [isDownVoteError, setIsDownVoteError] = useState(false);
+  const [isVoteError, setIsVoteError] = useState(false);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -27,35 +26,29 @@ const ArticleDisplay = ({ article_id }) => {
   }, []);
 
   const upVote = (article_id) => {
-    addArticleVote(article_id)
-      .then(() => {
-        setIsUpVoteError(false);
-      })
-      .catch(() => {
-        setIsUpVoteError(true);
-      });
-
-    if (!isUpVoteError) {
-      setArticle((currArticle) => {
-        return { ...currArticle, votes: currArticle.votes + 1 };
-      });
-    }
-  };
-
-  const downVote = (article_id) => {
-    deleteArticleVote(article_id)
-      .then(() => {
-        setIsDownVoteError(false);
-      })
-      .catch(() => {
-        setIsDownVoteError(true);
-      });
-
-    if (!isDownVoteError) {
+    setArticle((currArticle) => {
+      return { ...currArticle, votes: currArticle.votes + 1 };
+    });
+    setIsVoteError(false);
+    addArticleVote(article_id).catch(() => {
       setArticle((currArticle) => {
         return { ...currArticle, votes: currArticle.votes - 1 };
       });
-    }
+      setIsVoteError(true);
+    });
+  };
+
+  const downVote = (article_id) => {
+    setArticle((currArticle) => {
+      return { ...currArticle, votes: currArticle.votes - 1 };
+    });
+    setIsVoteError(false);
+    deleteArticleVote(article_id).catch(() => {
+      setArticle((currArticle) => {
+        return { ...currArticle, votes: currArticle.votes + 1 };
+      });
+      setIsVoteError(true);
+    });
   };
 
   if (isLoading) {
@@ -82,8 +75,9 @@ const ArticleDisplay = ({ article_id }) => {
       >
         Downvote
       </button>
-      <p>{isUpVoteError ? "Could not upvote comment!" : ""}</p>
-      <p>{isDownVoteError ? "Could not downvote comment!" : ""}</p>
+      <h3>
+        {isVoteError ? "Could not vote on article, please try again." : null}
+      </h3>
     </div>
   );
 };
