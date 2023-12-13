@@ -8,6 +8,7 @@ const ArticleComments = ({ article_id }) => {
   const [isError, setIsError] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [postStatus, setPostStatus] = useState("");
+  const [canSubmit, setCanSubmit] = useState(true);
 
   useEffect(() => {
     getCommentsForArticle(article_id)
@@ -30,23 +31,27 @@ const ArticleComments = ({ article_id }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setPostStatus("Posting comment...");
-    postComment(article_id, newComment)
-      .then((apiComment) => {
-        setNewComment("");
-        setArticleComments((currComments) => {
-          return [apiComment, ...currComments];
+    if (canSubmit) {
+      setCanSubmit(false);
+      setPostStatus("Posting comment...");
+      postComment(article_id, newComment)
+        .then((apiComment) => {
+          setNewComment("");
+          setArticleComments((currComments) => {
+            return [apiComment, ...currComments];
+          });
+          setPostStatus("Comment successfully posted!");
+        })
+        .catch(() => {
+          setPostStatus("Unable to post comment, please try again.");
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setPostStatus("");
+            setCanSubmit(true);
+          }, 3000);
         });
-        setPostStatus("Comment successfully posted!");
-      })
-      .catch(() => {
-        setPostStatus("Unable to post comment, please try again.");
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setPostStatus("");
-        }, 3000);
-      });
+    }
   };
 
   return (
@@ -54,15 +59,15 @@ const ArticleComments = ({ article_id }) => {
       <h2>Comments:</h2>
       <form className="add-comment-form" onSubmit={handleSubmit}>
         <label htmlFor="newComment">Add a comment:</label>
-          <textarea
-            className="comment-input-box"
-            id="newComment"
-            multiline="true"
-            value={newComment}
-            placeholder="Write your comment here..."
-            onChange={(event) => setNewComment(event.target.value)}
-            required
-          ></textarea>
+        <textarea
+          className="comment-input-box"
+          id="newComment"
+          multiline="true"
+          value={newComment}
+          placeholder="Write your comment here..."
+          onChange={(event) => setNewComment(event.target.value)}
+          required
+        ></textarea>
         <button className="add-comment-button">Add!</button>
       </form>
       <h3>{postStatus}</h3>
