@@ -30,8 +30,10 @@ const ArticleComments = ({ article_id }) => {
     <div>
       <h2>Comments:</h2>
       <form>
-        Add or delete a comment:
-        <input placeholder="Write your comment here..."></input>
+        <label>
+          Add or delete a comment:
+          <input placeholder="Write your comment here..."></input>
+        </label>
         <button className="add-button">Add</button>
         <button className="delete-button">Delete</button>
       </form>
