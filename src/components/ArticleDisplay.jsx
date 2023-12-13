@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { getArticleById } from "../utils/api";
+import {
+  addArticleVote,
+  deleteArticleVote,
+  getArticleById,
+} from "../utils/api";
 import Article from "./Article";
 
 const ArticleDisplay = ({ article_id }) => {
   const [article, setArticle] = useState({});
-  //   const [votes, setVotes] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [isUpVoteError, setIsUpVoteError] = useState(false);
+  const [isDownVoteError, setIsDownVoteError] = useState(false);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -21,6 +26,38 @@ const ArticleDisplay = ({ article_id }) => {
       });
   }, []);
 
+  const upVote = (article_id) => {
+    addArticleVote(article_id)
+      .then(() => {
+        setIsUpVoteError(false);
+      })
+      .catch(() => {
+        setIsUpVoteError(true);
+      });
+
+    if (!isUpVoteError) {
+      setArticle((currArticle) => {
+        return { ...currArticle, votes: currArticle.votes + 1 };
+      });
+    }
+  };
+
+  const downVote = (article_id) => {
+    deleteArticleVote(article_id)
+      .then(() => {
+        setIsDownVoteError(false);
+      })
+      .catch(() => {
+        setIsDownVoteError(true);
+      });
+
+    if (!isDownVoteError) {
+      setArticle((currArticle) => {
+        return { ...currArticle, votes: currArticle.votes - 1 };
+      });
+    }
+  };
+
   if (isLoading) {
     return <h2>Loading Article...</h2>;
   }
@@ -33,8 +70,20 @@ const ArticleDisplay = ({ article_id }) => {
       <ul className="article-display">
         <Article article={article} key={article.article_id} />
       </ul>
-      <button className="upvote-button">Upvote</button>
-      <button className="downvote-button">Downvote</button>
+      <button
+        onClick={() => upVote(article.article_id)}
+        className="upvote-button"
+      >
+        Upvote
+      </button>
+      <button
+        onClick={() => downVote(article.article_id)}
+        className="downvote-button"
+      >
+        Downvote
+      </button>
+      <p>{isUpVoteError ? "Could not upvote comment!" : ""}</p>
+      <p>{isDownVoteError ? "Could not downvote comment!" : ""}</p>
     </div>
   );
 };
