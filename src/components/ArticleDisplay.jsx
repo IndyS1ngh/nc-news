@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { getArticleById } from "../utils/api";
+import {
+  addArticleVote,
+  deleteArticleVote,
+  getArticleById,
+} from "../utils/api";
 import Article from "./Article";
 
 const ArticleDisplay = ({ article_id }) => {
   const [article, setArticle] = useState({});
-  //   const [votes, setVotes] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [isVoteError, setIsVoteError] = useState(false);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -21,6 +25,32 @@ const ArticleDisplay = ({ article_id }) => {
       });
   }, []);
 
+  const upVote = (article_id) => {
+    setArticle((currArticle) => {
+      return { ...currArticle, votes: currArticle.votes + 1 };
+    });
+    setIsVoteError(false);
+    addArticleVote(article_id).catch(() => {
+      setArticle((currArticle) => {
+        return { ...currArticle, votes: currArticle.votes - 1 };
+      });
+      setIsVoteError(true);
+    });
+  };
+
+  const downVote = (article_id) => {
+    setArticle((currArticle) => {
+      return { ...currArticle, votes: currArticle.votes - 1 };
+    });
+    setIsVoteError(false);
+    deleteArticleVote(article_id).catch(() => {
+      setArticle((currArticle) => {
+        return { ...currArticle, votes: currArticle.votes + 1 };
+      });
+      setIsVoteError(true);
+    });
+  };
+
   if (isLoading) {
     return <h2>Loading Article...</h2>;
   }
@@ -33,8 +63,21 @@ const ArticleDisplay = ({ article_id }) => {
       <ul className="article-display">
         <Article article={article} key={article.article_id} />
       </ul>
-      <button className="upvote-button">Upvote</button>
-      <button className="downvote-button">Downvote</button>
+      <button
+        onClick={() => upVote(article.article_id)}
+        className="upvote-button"
+      >
+        Upvote
+      </button>
+      <button
+        onClick={() => downVote(article.article_id)}
+        className="downvote-button"
+      >
+        Downvote
+      </button>
+      <h3>
+        {isVoteError ? "Could not vote on article, please try again." : null}
+      </h3>
     </div>
   );
 };

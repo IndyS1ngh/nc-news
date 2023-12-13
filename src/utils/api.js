@@ -21,3 +21,21 @@ export const getCommentsForArticle = (article_id) => {
     return res.data.comments;
   });
 };
+
+export const addArticleVote = (article_id) => {
+  const patchBody = {
+    inc_votes: 1,
+  };
+  return newsApi.patch(`/articles/${article_id}`, patchBody).then((res) => {
+    return res.data.article;
+  });
+};
+
+export const deleteArticleVote = (article_id) => {
+  const patchBody = {
+    inc_votes: -1,
+  };
+  return newsApi.patch(`/articles/${article_id}`, patchBody).then((res) => {
+    return res.data.article;
+  });
+};
