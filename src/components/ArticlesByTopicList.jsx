@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
-import { getArticles } from "../utils/api";
+import { getArticlesByTopic } from "../utils/api";
 import ArticleItem from "./ArticleItem";
+import { useSearchParams } from 'react-router-dom';
 
-const ArticleList = () => {
-  const [articles, setArticles] = useState([]);
+const ArticlesByTopicList = () => {
+  const [articlesByTopic, setArticlesByTopic] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+  const topicQuery = searchParams.get("topic");
 
   useEffect(() => {
-    getArticles()
-      .then((apiArticles) => {
-        setArticles(apiArticles);
+    getArticlesByTopic(topicQuery)
+      .then((apiArticlesByTopic) => {
+        setArticlesByTopic(apiArticlesByTopic);
         setIsLoading(false);
       })
       .catch(() => {
         setIsError(true);
         setIsLoading(false);
       });
-  }, []);
+  }, [topicQuery]);
 
   if (isLoading) {
     return <h2>Loading Articles...</h2>;
@@ -28,9 +32,8 @@ const ArticleList = () => {
 
   return (
     <div>
-      {/* <button className="filter-by-topic">Filter by Topic</button> */}
       <ul className="article-list">
-        {articles.map((article) => {
+        {articlesByTopic.map((article) => {
           return <ArticleItem article={article} key={article.article_id} />;
         })}
       </ul>
@@ -38,4 +41,4 @@ const ArticleList = () => {
   );
 };
 
-export default ArticleList;
+export default ArticlesByTopicList;
