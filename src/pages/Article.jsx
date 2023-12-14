@@ -9,7 +9,7 @@ const Article = () => {
   const { article_id } = useParams();
 
   return (
-    <main id="main "className="article-page">
+    <main id="main" className="article-page">
       <Header />
       <NavBar />
       <ArticleDisplay article_id={article_id} />

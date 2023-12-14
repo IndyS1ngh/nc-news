@@ -16,6 +16,14 @@
   text-align: center;
 }
 
+.topics-page {
+  text-align: center;
+}
+
+.articles-by-topic-page {
+  text-align: center;
+}
+
 li {
   list-style-type: none;
 }
@@ -118,11 +126,11 @@ li {
   text-align: left;
 }
 
-.comment-item:hover {
+/* .comment-item:hover {
   border-radius: 20px;
   transition: all 0.3s ease 0s;
   box-shadow: 0 0 5px #1b2d45;
-}
+} */
 
 .comment-body {
   font-size: 1.1rem;
@@ -174,4 +182,10 @@ main {
 
 .home-link {
   background-color: white;
+  padding-right: 2%;
+}
+
+.topics-link {
+  background-color: white;
+  padding-left: 2%;
 }
