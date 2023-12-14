@@ -4,10 +4,12 @@ const newsApi = axios.create({
   baseURL: "https://indys-news-api.onrender.com/api",
 });
 
-export const getArticles = () => {
-  return newsApi.get("/articles").then((res) => {
-    return res.data.articles;
-  });
+export const getArticles = (sort_by, order) => {
+  return newsApi
+    .get(`/articles?sort_by=${sort_by}&order=${order}`)
+    .then((res) => {
+      return res.data.articles;
+    });
 };
 
 export const getArticleById = (article_id) => {
@@ -43,8 +45,6 @@ export const deleteArticleVote = (article_id) => {
 export const postComment = (article_id, newCommentText) => {
   const postBody = {
     body: newCommentText,
-
-    //TODO - needs to be dynamic
     username: "weegembump",
   };
   return newsApi
@@ -64,8 +64,10 @@ export const getTopics = () => {
   });
 };
 
-export const getArticlesByTopic = (topic) => {
-  return newsApi.get(`/articles?topic=${topic}`).then((res) => {
-    return res.data.articles;
-  });
+export const getArticlesByTopic = (topic, sort_by, order) => {
+  return newsApi
+    .get(`/articles?topic=${topic}&sort_by=${sort_by}&order=${order}`)
+    .then((res) => {
+      return res.data.articles;
+    });
 };
