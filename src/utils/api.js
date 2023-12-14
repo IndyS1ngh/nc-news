@@ -43,7 +43,7 @@ export const deleteArticleVote = (article_id) => {
 export const postComment = (article_id, newCommentText) => {
   const postBody = {
     body: newCommentText,
-    
+
     //TODO - needs to be dynamic
     username: "weegembump",
   };
@@ -52,4 +52,8 @@ export const postComment = (article_id, newCommentText) => {
     .then((res) => {
       return res.data.comment;
     });
+};
+
+export const deleteComment = (comment_id) => {
+  return newsApi.delete(`/comments/${comment_id}`);
 };
