@@ -22,13 +22,6 @@ const ArticleComments = ({ article_id }) => {
       });
   }, []);
 
-  if (isLoading) {
-    return <h2>Loading Comments...</h2>;
-  }
-  if (isError) {
-    return <h2>Comments failed to load...</h2>;
-  }
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (canSubmit) {
@@ -53,6 +46,13 @@ const ArticleComments = ({ article_id }) => {
         });
     }
   };
+
+  if (isLoading) {
+    return <h2>Loading Comments...</h2>;
+  }
+  if (isError) {
+    return <h2>Comments failed to load...</h2>;
+  }
 
   return (
     <div>
