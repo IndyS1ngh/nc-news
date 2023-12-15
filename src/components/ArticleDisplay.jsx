@@ -5,12 +5,13 @@ import {
   getArticleById,
 } from "../utils/api";
 import Article from "./Article";
+import Error from "./Error";
 
 const ArticleDisplay = ({ article_id }) => {
   const [article, setArticle] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
   const [isVoteError, setIsVoteError] = useState(false);
+  const [apiError, setApiError] = useState(null);
 
   useEffect(() => {
     getArticleById(article_id)
@@ -19,8 +20,8 @@ const ArticleDisplay = ({ article_id }) => {
         setIsLoading(false);
         window.scrollTo(0, 0);
       })
-      .catch(() => {
-        setIsError(true);
+      .catch((err) => {
+        setApiError(err);
         setIsLoading(false);
       });
   }, []);
@@ -53,33 +54,32 @@ const ArticleDisplay = ({ article_id }) => {
 
   if (isLoading) {
     return <h2>Loading Article...</h2>;
+  } else if (apiError) {
+    return <Error message={apiError.message} />;
+  } else {
+    return (
+      <div>
+        <ul className="article-display">
+          <Article article={article} key={article.article_id} />
+        </ul>
+        <button
+          onClick={() => upVote(article.article_id)}
+          className="upvote-button"
+        >
+          Upvote
+        </button>
+        <button
+          onClick={() => downVote(article.article_id)}
+          className="downvote-button"
+        >
+          Downvote
+        </button>
+        <h3>
+          {isVoteError ? "Could not vote on article, please try again." : null}
+        </h3>
+      </div>
+    );
   }
-  if (isError) {
-    return <h2>Article failed to load...</h2>;
-  }
-
-  return (
-    <div>
-      <ul className="article-display">
-        <Article article={article} key={article.article_id} />
-      </ul>
-      <button
-        onClick={() => upVote(article.article_id)}
-        className="upvote-button"
-      >
-        Upvote
-      </button>
-      <button
-        onClick={() => downVote(article.article_id)}
-        className="downvote-button"
-      >
-        Downvote
-      </button>
-      <h3>
-        {isVoteError ? "Could not vote on article, please try again." : null}
-      </h3>
-    </div>
-  );
 };
 
 export default ArticleDisplay;

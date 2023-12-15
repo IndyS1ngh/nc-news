@@ -13,9 +13,19 @@ export const getArticles = (sort_by, order) => {
 };
 
 export const getArticleById = (article_id) => {
-  return newsApi.get(`/articles/${article_id}`).then((res) => {
-    return res.data.article;
-  });
+  return newsApi
+    .get(`/articles/${article_id}`)
+    .then((res) => {
+      return res.data.article;
+    })
+    .catch(function (error) {
+      if (error.response) {
+        return Promise.reject({
+          status: error.response.status,
+          message: error.response.data.msg,
+        });
+      }
+    });
 };
 
 export const getCommentsForArticle = (article_id) => {
@@ -69,5 +79,13 @@ export const getArticlesByTopic = (topic, sort_by, order) => {
     .get(`/articles?topic=${topic}&sort_by=${sort_by}&order=${order}`)
     .then((res) => {
       return res.data.articles;
+    })
+    .catch(function (error) {
+      if (error.response) {
+        return Promise.reject({
+          status: error.response.status,
+          message: error.response.data.msg,
+        });
+      }
     });
 };
